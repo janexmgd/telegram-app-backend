@@ -14,6 +14,7 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 // import-route
 const authRoute = require("./src/routes/auth.route");
+const userRoute = require("./src/routes/users.route");
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use(bodyParser.json());
 
 // insert here for router
 app.use(authRoute);
+app.use(userRoute);
 
 app.use(express.static("public"));
 app.listen(LISTEN_PORT || 9927, () => {
