@@ -1,5 +1,6 @@
 const { success, failed } = require("../helpers/response");
 const userModel = require("../models/user.model");
+const deleteFile = require("../utils/deleteFile");
 
 module.exports = {
   allUsers: async (req, res) => {
@@ -173,6 +174,40 @@ module.exports = {
         error: [],
       });
       return;
+    }
+  },
+  updateUserPhoto: async (req, res) => {
+    try {
+      const id = req.APP_DATA.tokenDecoded.id;
+      const checkPhoto = await userModel.checkPhoto(id);
+      const usersPhoto = checkPhoto.rows[0].photo;
+      const photo = req.file.filename;
+      if (usersPhoto == "default.png") {
+        await userModel.updatePhoto(photo, id);
+        success(res, {
+          code: 200,
+          status: "Success",
+          message: "Update photo success",
+          data: photo,
+        });
+      } else {
+        await userModel.updatePhoto(photo, id);
+        success(res, {
+          code: 200,
+          status: "Success",
+          message: "Update photo success",
+          data: photo,
+        });
+        deleteFile(`./public/uploads/users/${usersPhoto}`);
+      }
+    } catch (error) {
+      // console.log(error);
+      failed(res, {
+        code: 400,
+        status: "Failed",
+        message: "Update photo failed",
+        error: error.message,
+      });
     }
   },
 };

@@ -89,6 +89,30 @@ const userModel = {
       );
     });
   },
+  checkPhoto: (id) => {
+    return new Promise((resolve, reject) => {
+      db.query(`SELECT photo FROM users WHERE id ='${id}'`, (err, res) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(res);
+      });
+    });
+  },
+  updatePhoto: (photo, id) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `UPDATE users SET photo='${photo}' WHERE id='${id}'`,
+        (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result);
+          }
+        }
+      );
+    });
+  },
 };
 
 module.exports = userModel;
