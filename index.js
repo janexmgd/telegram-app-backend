@@ -61,5 +61,5 @@ app.get("/", (req, res) => {
 });
 const port = PORT || 9927;
 server.listen(port, "0.0.0.0", () => {
-	console.log(`${APP_NAME} RUN at port ${LISTEN_PORT}`);
+	console.log(`${APP_NAME} RUN at port ${port}`);
 });
