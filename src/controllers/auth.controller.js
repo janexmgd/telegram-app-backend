@@ -1,11 +1,11 @@
 // import package
-const bcrypt = require("bcrypt");
-const { v4: uuidv4 } = require("uuid");
-const authModel = require("../models/auth.model");
-const jwtToken = require("../helpers/generateJWTtoken");
+const bcrypt = require('bcrypt');
+const { v4: uuidv4 } = require('uuid');
+const authModel = require('../models/auth.model');
+const jwtToken = require('../helpers/generateJWTtoken');
 
 // import helpers
-const { success, failed } = require("../helpers/response");
+const { success, failed } = require('../helpers/response');
 
 module.exports = {
   register: async (req, res) => {
@@ -15,11 +15,11 @@ module.exports = {
       const emailCheck = await authModel.emailCheck(email);
       if (emailCheck.rowCount >= 1) {
         const error = {
-          message: "email is already registered",
+          message: 'email is already registered',
         };
         failed(res, {
           code: 500,
-          status: "error",
+          status: 'error',
           message: error.message,
           error: [],
         });
@@ -28,11 +28,11 @@ module.exports = {
       const nameCheck = await authModel.nameCheck(name);
       if (nameCheck.rowCount >= 1) {
         const error = {
-          message: "name is already registered",
+          message: 'name is already registered',
         };
         failed(res, {
           code: 500,
-          status: "error",
+          status: 'error',
           message: error.message,
           error: [],
         });
@@ -40,7 +40,7 @@ module.exports = {
       }
       const id = uuidv4();
       const passwordHashed = await bcrypt.hash(password, 10);
-      const photo = "default.png";
+      const photo = 'default.png';
       const data = {
         id,
         email,
@@ -51,15 +51,15 @@ module.exports = {
       await authModel.register(data);
       success(res, {
         code: 200,
-        status: "success",
-        message: "Registered sucesss",
+        status: 'success',
+        message: 'Registered sucesss',
         data: data,
         paggination: [],
       });
     } catch (error) {
       failed(res, {
         code: 500,
-        status: "error",
+        status: 'error',
         message: error.message,
         error: [],
       });
@@ -77,19 +77,19 @@ module.exports = {
               const token = await jwtToken(emailCheck.rows[0]);
               success(res, {
                 code: 200,
-                status: "success",
-                message: "login success",
+                status: 'success',
+                message: 'Login success',
                 token: token,
                 data: emailCheck.rows[0],
               });
             } else {
               // login gagal
               const err = {
-                message: "wrong email or password",
+                message: 'Wrong email or password',
               };
               failed(res, {
                 code: 500,
-                status: "error",
+                status: 'error',
                 message: err.message,
                 error: [],
               });
@@ -97,11 +97,11 @@ module.exports = {
           });
       } else {
         const err = {
-          message: "email not registered",
+          message: 'email not registered',
         };
         failed(res, {
           code: 500,
-          status: "error",
+          status: 'error',
           message: err.message,
           error: [],
         });
@@ -109,7 +109,7 @@ module.exports = {
     } catch (error) {
       failed(res, {
         code: 500,
-        status: "error",
+        status: 'error',
         message: error.message,
         error: [],
       });

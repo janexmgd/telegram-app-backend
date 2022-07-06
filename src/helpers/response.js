@@ -11,7 +11,7 @@ module.exports = {
 
     const response = {
       code: code || 200,
-      status: status || "success",
+      status: status || 'success',
       message,
       data,
     };
@@ -24,7 +24,7 @@ module.exports = {
     // sucess with token
     if (token) {
       response.token = token;
-      delete response.data;
+      // delete response.data;
     }
 
     res.status(code).json(response);
@@ -45,7 +45,7 @@ module.exports = {
 
     const response = {
       code: code || 500,
-      status: status || "failed",
+      status: status || 'failed',
       message,
       error,
     };

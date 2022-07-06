@@ -1,17 +1,17 @@
-const { success, failed } = require("../helpers/response");
-const userModel = require("../models/user.model");
-const deleteFile = require("../utils/deleteFile");
+const { success, failed } = require('../helpers/response');
+const userModel = require('../models/user.model');
+const deleteFile = require('../utils/deleteFile');
 
 module.exports = {
   allUsers: async (req, res) => {
     try {
       const { search, page, limit, sort, mode } = req.query;
-      const searchQuery = search || "";
+      const searchQuery = search || '';
       const pageValue = page ? Number(page) : 1;
       const limitValue = limit ? Number(limit) : 5;
       const offsetValue = (pageValue - 1) * limitValue;
-      const sortQuery = sort ? sort : "name";
-      const modeQuery = mode ? mode : "ASC";
+      const sortQuery = sort ? sort : 'name';
+      const modeQuery = mode ? mode : 'ASC';
       const allData = await userModel.allUser();
       const totalData = Number(allData.rows[0].total);
       const data = {
@@ -28,7 +28,7 @@ module.exports = {
         };
         failed(res, {
           code: 500,
-          status: "error",
+          status: 'error',
           message: err.message,
           error: [],
         });
@@ -44,7 +44,7 @@ module.exports = {
         };
         success(res, {
           code: 200,
-          status: "success",
+          status: 'success',
           message: `Success get data user`,
           data: dataUser.rows,
           pagination: pagination,
@@ -59,8 +59,8 @@ module.exports = {
 
         success(res, {
           code: 200,
-          status: "success",
-          message: `Success get data worker`,
+          status: 'success',
+          message: `Success get data user`,
           data: dataUser.rows,
           pagination: pagination,
         });
@@ -68,7 +68,7 @@ module.exports = {
     } catch (error) {
       failed(res, {
         code: 500,
-        status: "error",
+        status: 'error',
         message: error.message,
         error: [],
       });
@@ -85,7 +85,7 @@ module.exports = {
         };
         failed(res, {
           code: 500,
-          status: "error",
+          status: 'error',
           message: err.message,
           error: [],
         });
@@ -93,7 +93,7 @@ module.exports = {
       }
       success(res, {
         code: 200,
-        status: "success",
+        status: 'success',
         message: `Success get users with id ${id}`,
         data: data.rows[0],
         paggination: [],
@@ -101,7 +101,7 @@ module.exports = {
     } catch (error) {
       failed(res, {
         code: 500,
-        status: "error",
+        status: 'error',
         message: error.message,
         error: [],
       });
@@ -122,8 +122,8 @@ module.exports = {
         if (nameCheck.rowCount > 0) {
           failed(res, {
             code: 400,
-            status: "Error",
-            message: "Name is already exist",
+            status: 'Error',
+            message: 'Name is already exist',
             error: null,
           });
           return;
@@ -136,8 +136,8 @@ module.exports = {
         if (usernameCheck.rowCount > 0) {
           failed(res, {
             code: 400,
-            status: "Error",
-            message: "username is already exist",
+            status: 'Error',
+            message: 'username is already exist',
             error: null,
           });
           return;
@@ -150,8 +150,8 @@ module.exports = {
         if (emailCheck.rowCount > 0) {
           failed(res, {
             code: 400,
-            status: "Error",
-            message: "Email is already exist",
+            status: 'Error',
+            message: 'Email is already exist',
             error: null,
           });
           return;
@@ -161,7 +161,7 @@ module.exports = {
       const result = await userModel.updateUserData(data);
       success(res, {
         code: 200,
-        status: "success",
+        status: 'success',
         message: `update user success`,
         data: result,
         paggination: [],
@@ -169,7 +169,7 @@ module.exports = {
     } catch (error) {
       failed(res, {
         code: 500,
-        status: "error",
+        status: 'error',
         message: error.message,
         error: [],
       });
@@ -182,20 +182,20 @@ module.exports = {
       const checkPhoto = await userModel.checkPhoto(id);
       const usersPhoto = checkPhoto.rows[0].photo;
       const photo = req.file.filename;
-      if (usersPhoto == "default.png") {
+      if (usersPhoto == 'default.png') {
         await userModel.updatePhoto(photo, id);
         success(res, {
           code: 200,
-          status: "Success",
-          message: "Update photo success",
+          status: 'Success',
+          message: 'Update photo success',
           data: photo,
         });
       } else {
         await userModel.updatePhoto(photo, id);
         success(res, {
           code: 200,
-          status: "Success",
-          message: "Update photo success",
+          status: 'Success',
+          message: 'Update photo success',
           data: photo,
         });
         deleteFile(`./public/uploads/users/${usersPhoto}`);
@@ -204,8 +204,8 @@ module.exports = {
       // console.log(error);
       failed(res, {
         code: 400,
-        status: "Failed",
-        message: "Update photo failed",
+        status: 'Failed',
+        message: 'Update photo failed',
         error: error.message,
       });
     }
