@@ -56,7 +56,7 @@ app.use(authRoute);
 app.use(userRoute);
 
 app.use(express.static("public"));
-app.get("/", (req, res) => {
+server.get("/", (req, res) => {
 	res.json("MADE WITH LOVE BY DENNY");
 });
 server.listen(LISTEN_PORT || 9927, "0.0.0.0", () => {
