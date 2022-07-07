@@ -18,6 +18,7 @@ const socketController = require("./src/socket");
 // import-route
 const authRoute = require("./src/routes/auth.route");
 const userRoute = require("./src/routes/users.route");
+const path = require("path");
 
 const app = express();
 
@@ -57,7 +58,9 @@ app.use(userRoute);
 
 app.use(express.static("public"));
 app.get("/", (req, res) => {
-	res.json("MADE WITH LOVE BY DENNY");
+	res.sendFile("/src/views/index.html", {
+		root: path.join(__dirname, "./"),
+	});
 });
 const port = PORT || 9927;
 server.listen(port, "0.0.0.0", () => {
